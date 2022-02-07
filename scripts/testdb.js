@@ -34,7 +34,7 @@ function getDbSchema() {
                 dataType: 'string',
                 notNull: true
             },
-            descricao: {
+            sinopse: {
                 notNull: true,
                 dataType: 'string'
             },
@@ -45,6 +45,10 @@ function getDbSchema() {
             url_imagem: {
                 dataType: 'string',
                 notNull: true
+            },
+            assistido: {
+                dataType: 'string',
+                default: "false"
             }
         }
     }
@@ -82,9 +86,10 @@ function registerEvents() {
             id: row.attr('itemid'),
             name: child.eq(0).text(),
             ano: child.eq(1).text(),
-            descricao: child.eq(2).text(),
+            sinopse: child.eq(2).text(),
             url_poster: child.eq(3).text(),
-            url_imagem: child.eq(4).text()
+            url_imagem: child.eq(4).text(),
+            assistido: child.eq(5).text()
         }
         refreshFormData(movie);
         showFormAndHideGrid();
@@ -122,9 +127,10 @@ async function refreshTableData() {
             htmlString += "<tr ItemId=" + movie.id + "><td>" +
                 movie.name + "</td><td>" +
                 movie.ano + "</td><td>" +
-                movie.descricao + "</td><td>" +
+                movie.sinopse + "</td><td>" +
                 movie.url_poster + "</td><td>" +
                 movie.url_imagem + "</td><td>" +
+                movie.assistido + "</td><td>" + 
                 "<a href='#' class='edit'>Edit</a></td>" +
                 "<td><a href='#' class='delete''>Delete</a></td>";
         })
@@ -178,9 +184,10 @@ async function updateMovie() {
             set: {
                 name: movie.name,
                 ano: movie.ano,
-                descricao: movie.descricao,
+                sinopse: movie.sinopse,
                 url_poster: movie.url_poster,
-                url_imagem: movie.url_imagem
+                url_imagem: movie.url_imagem,
+                assistido: movie.assistido
 
             },
             where: {
@@ -238,9 +245,10 @@ function getMovieFromForm() {
         id: Number($('form').attr('data-movie-id')),
         name: $('#txtName').val(),
         ano: $(`#txtAno`).val(),
-        descricao: $('#txtDescricao').val(),
+        sinopse: $('#txtSinopse').val(),
         url_poster: $('#txtPoster').val(),
-        url_imagem: $('#txtImagem').val()
+        url_imagem: $('#txtImagem').val(),
+        assistido: $("input[name='assistido']:checked").val()
     };
     return movie;
 }
@@ -259,7 +267,8 @@ function refreshFormData(movie) {
     $('form').attr('data-movie-id', movie.id);
     $('#txtName').val(movie.name);
     $(`#txtAno`).val(movie.ano);
-    $('#txtDescricao').val(movie.descricao);
+    $('#txtSinopse').val(movie.sinopse);
     $('#txtPoster').val(movie.url_poster);
     $('#txtImagem').val(movie.url_imagem);
+    $(`input[name='assistido'][value=${movie.assistido}]`).prop('checked', true);
 }
