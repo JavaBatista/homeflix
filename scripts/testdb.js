@@ -30,15 +30,19 @@ function getDbSchema() {
                 notNull: true,
                 dataType: 'string'
             },
-            gender: {
+            ano: {
                 dataType: 'string',
-                default: 'male'
+                notNull: true
             },
-            country: {
+            descricao: {
                 notNull: true,
                 dataType: 'string'
             },
-            city: {
+            url_poster: {
+                dataType: 'string',
+                notNull: true
+            },
+            url_imagem: {
                 dataType: 'string',
                 notNull: true
             }
@@ -55,25 +59,32 @@ function getDbSchema() {
 function registerEvents() {
     $('#btnAddMovie').click(function () {
         showFormAndHideGrid();
-    })
+    });
     $('#btnPopulateDatabase').click(function () {
         populateDatabase();
-    })
+    });
     $('#btnClearDatabase').click(function () {
         var result = confirm('Are you sure, you want to delete the table?');
         if (result) {
             clearTable('Movie');
         }
-    })
+    });
+    $('#btnRemoveDatabase').click(function () {
+        var result = confirm('Are you sure, you want to remove the database from browser storage?');
+        if (result) {
+            removeDatabase();
+        }
+    });
     $('#tblGrid tbody').on('click', '.edit', function () {
         var row = $(this).parents().eq(1);
         var child = row.children();
         var movie = {
             id: row.attr('itemid'),
             name: child.eq(0).text(),
-            gender: child.eq(1).text(),
-            country: child.eq(2).text(),
-            city: child.eq(3).text()
+            ano: child.eq(1).text(),
+            descricao: child.eq(2).text(),
+            url_poster: child.eq(3).text(),
+            url_imagem: child.eq(4).text()
         }
         refreshFormData(movie);
         showFormAndHideGrid();
@@ -94,6 +105,9 @@ function registerEvents() {
             addMovie();
         }
     });
+    $('#btnCancel').click(function () {
+        showGridAndHideForm();
+    });
 }
 
 
@@ -107,9 +121,10 @@ async function refreshTableData() {
         movies.forEach(function (movie) {
             htmlString += "<tr ItemId=" + movie.id + "><td>" +
                 movie.name + "</td><td>" +
-                movie.gender + "</td><td>" +
-                movie.country + "</td><td>" +
-                movie.city + "</td><td>" +
+                movie.ano + "</td><td>" +
+                movie.descricao + "</td><td>" +
+                movie.url_poster + "</td><td>" +
+                movie.url_imagem + "</td><td>" +
                 "<a href='#' class='edit'>Edit</a></td>" +
                 "<td><a href='#' class='delete''>Delete</a></td>";
         })
@@ -162,9 +177,11 @@ async function updateMovie() {
             in: 'Movie',
             set: {
                 name: movie.name,
-                gender: movie.gender,
-                country: movie.country,
-                city: movie.city
+                ano: movie.ano,
+                descricao: movie.descricao,
+                url_poster: movie.url_poster,
+                url_imagem: movie.url_imagem
+
             },
             where: {
                 id: movie.id
@@ -205,15 +222,25 @@ async function clearTable(table_name){
     }
 }
 
+async function removeDatabase() {
+
+    jsstoreCon.dropDb().then(function() {
+        console.log('Db removed successfully');
+        refreshTableData();
+    }).catch(function(error) {
+        console.log(error);
+    });;
+}
 
 
 function getMovieFromForm() {
     var movie = {
         id: Number($('form').attr('data-movie-id')),
         name: $('#txtName').val(),
-        gender: $("input[name='gender']:checked").val(),
-        country: $('#txtCountry').val(),
-        city: $('#txtCity').val()
+        ano: $(`#txtAno`).val(),
+        descricao: $('#txtDescricao').val(),
+        url_poster: $('#txtPoster').val(),
+        url_imagem: $('#txtImagem').val()
     };
     return movie;
 }
@@ -231,7 +258,8 @@ function showGridAndHideForm() {
 function refreshFormData(movie) {
     $('form').attr('data-movie-id', movie.id);
     $('#txtName').val(movie.name);
-    $(`input[name='gender'][value=${movie.gender}]`).prop('checked', true);
-    $('#txtCountry').val(movie.country);
-    $('#txtCity').val(movie.city);
+    $(`#txtAno`).val(movie.ano);
+    $('#txtDescricao').val(movie.descricao);
+    $('#txtPoster').val(movie.url_poster);
+    $('#txtImagem').val(movie.url_imagem);
 }
