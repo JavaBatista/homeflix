@@ -57,7 +57,7 @@ function registerEvents() {
         showFormAndHideGrid();
     })
     $('#btnPopulateDatabase').click(function () {
-        showFormAndHideGrid();
+        populateDatabase();
     })
     $('#btnClearDatabase').click(function () {
         var result = confirm('Are you sure, you want to delete the table?');
@@ -131,6 +131,23 @@ async function addMovie() {
         if (noOfDataInserted === 1) {
             refreshTableData();
             showGridAndHideForm();
+        }
+    } catch (ex) {
+        alert(ex.message);
+    }
+
+}
+
+async function populateDatabase() {
+    // data foi declarada no arquivo data.js
+    var movie = data;
+    try {
+        var noOfDataInserted = await jsstoreCon.insert({
+            into: 'Movie',
+            values: movie
+        });
+        if (noOfDataInserted === movie.length) {
+            refreshTableData();
         }
     } catch (ex) {
         alert(ex.message);
