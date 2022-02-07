@@ -20,7 +20,7 @@ async function initDb() {
 
 function getDbSchema() {
     var table = {
-        name: 'Student',
+        name: 'Movie',
         columns: {
             id: {
                 primaryKey: true,
@@ -46,43 +46,52 @@ function getDbSchema() {
     }
 
     var db = {
-        name: 'My-Db',
+        name: 'Movie-Db',
         tables: [table]
     }
     return db;
 }
 
 function registerEvents() {
-    $('#btnAddStudent').click(function () {
+    $('#btnAddMovie').click(function () {
         showFormAndHideGrid();
+    })
+    $('#btnPopulateDatabase').click(function () {
+        showFormAndHideGrid();
+    })
+    $('#btnClearDatabase').click(function () {
+        var result = confirm('Are you sure, you want to delete the table?');
+        if (result) {
+            clearTable('Movie');
+        }
     })
     $('#tblGrid tbody').on('click', '.edit', function () {
         var row = $(this).parents().eq(1);
         var child = row.children();
-        var student = {
+        var movie = {
             id: row.attr('itemid'),
             name: child.eq(0).text(),
             gender: child.eq(1).text(),
             country: child.eq(2).text(),
             city: child.eq(3).text()
         }
-        refreshFormData(student);
+        refreshFormData(movie);
         showFormAndHideGrid();
     });
     $('#tblGrid tbody').on('click', '.delete', function () {
         var result = confirm('Are you sure, you want to delete?');
         if (result) {
-            var studentId = $(this).parents().eq(1).attr('itemid');
-            deleteStudent(Number(studentId));
+            var movieId = $(this).parents().eq(1).attr('itemid');
+            deleteMovie(Number(movieId));
         }
     });
     $('#btnSubmit').click(function () {
-        var studentId = $('form').attr('data-student-id');
-        if (studentId) {
-            updateStudent();
+        var movieId = $('form').attr('data-movie-id');
+        if (movieId) {
+            updateMovie();
         }
         else {
-            addStudent();
+            addMovie();
         }
     });
 }
@@ -92,15 +101,15 @@ function registerEvents() {
 async function refreshTableData() {
     try {
         var htmlString = "";
-        var students = await jsstoreCon.select({
-            from: 'Student'
+        var movies = await jsstoreCon.select({
+            from: 'Movie'
         });
-        students.forEach(function (student) {
-            htmlString += "<tr ItemId=" + student.id + "><td>" +
-                student.name + "</td><td>" +
-                student.gender + "</td><td>" +
-                student.country + "</td><td>" +
-                student.city + "</td><td>" +
+        movies.forEach(function (movie) {
+            htmlString += "<tr ItemId=" + movie.id + "><td>" +
+                movie.name + "</td><td>" +
+                movie.gender + "</td><td>" +
+                movie.country + "</td><td>" +
+                movie.city + "</td><td>" +
                 "<a href='#' class='edit'>Edit</a></td>" +
                 "<td><a href='#' class='delete''>Delete</a></td>";
         })
@@ -112,12 +121,12 @@ async function refreshTableData() {
 
 
 
-async function addStudent() {
-    var student = getStudentFromForm();
+async function addMovie() {
+    var movie = getMovieFromForm();
     try {
         var noOfDataInserted = await jsstoreCon.insert({
-            into: 'Student',
-            values: [student]
+            into: 'Movie',
+            values: [movie]
         });
         if (noOfDataInserted === 1) {
             refreshTableData();
@@ -129,24 +138,24 @@ async function addStudent() {
 
 }
 
-async function updateStudent() {
-    var student = getStudentFromForm();
+async function updateMovie() {
+    var movie = getMovieFromForm();
     try {
         var noOfDataUpdated = await jsstoreCon.update({
-            in: 'Student',
+            in: 'Movie',
             set: {
-                name: student.name,
-                gender: student.gender,
-                country: student.country,
-                city: student.city
+                name: movie.name,
+                gender: movie.gender,
+                country: movie.country,
+                city: movie.city
             },
             where: {
-                id: student.id
+                id: movie.id
             }
         });
         console.log(`data updated ${noOfDataUpdated}`);
         showGridAndHideForm();
-        $('form').attr('data-student-id', null);
+        $('form').attr('data-movie-id', null);
         refreshTableData();
         refreshFormData({});
     } catch (ex) {
@@ -154,30 +163,42 @@ async function updateStudent() {
     }
 }
 
-async function deleteStudent(id) {
+async function deleteMovie(id) {
     try {
-        var noOfStudentRemoved = await jsstoreCon.remove({
-            from: 'Student',
+        var noOfMovieRemoved = await jsstoreCon.remove({
+            from: 'Movie',
             where: {
                 id: id
             }
         });
-        console.log(`${noOfStudentRemoved} students removed`);
+        console.log(`${noOfMovieRemoved} movies removed`);
         refreshTableData();
     } catch (ex) {
         alert(ex.message);
     }
 }
 
-function getStudentFromForm() {
-    var student = {
-        id: Number($('form').attr('data-student-id')),
+async function clearTable(table_name){
+    try {
+        await jsstoreCon.clear(table_name);
+        console.log('data cleared successfully');
+        refreshTableData();
+    } catch (ex) {
+        alert(ex.message);
+    }
+}
+
+
+
+function getMovieFromForm() {
+    var movie = {
+        id: Number($('form').attr('data-movie-id')),
         name: $('#txtName').val(),
         gender: $("input[name='gender']:checked").val(),
         country: $('#txtCountry').val(),
         city: $('#txtCity').val()
     };
-    return student;
+    return movie;
 }
 
 function showFormAndHideGrid() {
@@ -190,10 +211,10 @@ function showGridAndHideForm() {
     $('#tblGrid').show();
 }
 
-function refreshFormData(student) {
-    $('form').attr('data-student-id', student.id);
-    $('#txtName').val(student.name);
-    $(`input[name='gender'][value=${student.gender}]`).prop('checked', true);
-    $('#txtCountry').val(student.country);
-    $('#txtCity').val(student.city);
+function refreshFormData(movie) {
+    $('form').attr('data-movie-id', movie.id);
+    $('#txtName').val(movie.name);
+    $(`input[name='gender'][value=${movie.gender}]`).prop('checked', true);
+    $('#txtCountry').val(movie.country);
+    $('#txtCity').val(movie.city);
 }
