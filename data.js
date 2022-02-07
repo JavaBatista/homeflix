@@ -31,7 +31,7 @@ const data = [
         ano: "2012",
         sinopse: "Durante uma batalha na Segunda Guerra Mundial, dois grupos de aviadores inimigos se veem perdidos numa floresta da Noruega quando seus aviões são derrubados. Forçados a procurar refúgio na mesma cabana, eles precisam deixar suas diferenças de lado para sobreviver.",
         url_poster: "https://www.themoviedb.org/t/p/original/3y4wWgm7y318EmABIcvz9dgEgE8.jpg",
-        url_imagem: "https://www.themoviedb.org/t/p/original/4vGg5b2z7sjy8SelQy787R1pN8b.jpg",
+        url_imagem: "https://www.themoviedb.org/t/p/original/qfXwBWzzd1klRknE5tXiqWC60jS.jpg",
         assistido: "false"
     },
 
@@ -87,9 +87,45 @@ const data = [
         url_poster: "https://www.themoviedb.org/t/p/original/hxtMH6qmnUgY9TQQZCWFS8Q1m0X.jpg",
         url_imagem: "https://www.themoviedb.org/t/p/original/j5STRYdaQXGfkkwFKBHBEfnoEeu.jpg",
         assistido: "true"
+    },
+
+    {
+        name: "Venom",
+        ano: "2018",
+        sinopse: "O jornalista Eddie Brock desenvolve força e poder sobre-humanos quando seu corpo se funde com o alienígena Venom. Dominado pela raiva, Venom tenta controlar as novas e perigosas habilidades de Eddie.",
+        url_poster: "https://www.themoviedb.org/t/p/original/rJjFL6yu20Ax60h5mqrJ7nWejLE.jpg",
+        url_imagem: "https://www.themoviedb.org/t/p/original/hNsYUryiwxcdeTMkaBcPF3iEg0p.jpg",
+        assistido: "true"
+    },
+
+    {
+        name: "Ghostbusters: Mais Além",
+        ano: "2021",
+        sinopse: "Uma mãe solteira resolve se mudar para uma pequena cidade do interior com seus filhos, e acaba descobrindo uma conexão com os Caça-Fantasmas originais e o que o seu avô deixou para trás como legado.",
+        url_poster: "https://www.themoviedb.org/t/p/original/e9nSrwh0H9n1YCbITxO4d2nN9xm.jpg",
+        url_imagem: "https://www.themoviedb.org/t/p/original/4sybNiCalJXketLuULuxtP8vz04.jpg",
+        assistido: "false"
+    },
+
+    {
+        name: "Shang-Chi e a Lenda dos Dez Anéis",
+        ano: "2021",
+        sinopse: "Shang-Chi precisa confrontar o passado que pensou ter deixado para trás. Ao mesmo tempo, ele é envolvido em uma teia de mistérios da organização conhecida como Dez Anéis.",
+        url_poster: "https://www.themoviedb.org/t/p/original/bOWS1sVfanJDjDAJHRnpSdHHhJ6.jpg",
+        url_imagem: "https://www.themoviedb.org/t/p/original/8jIRAV5KVZeIP6tjI1NuCfb9Il0.jpg",
+        assistido: "false"
+    },
+
+    {
+        name: "Matrix Resurrections",
+        ano: "2021",
+        sinopse: "Em um mundo de duas realidades — a vida cotidiana e o que está por trás dela —, Thomas Anderson terá que escolher seguir o coelho branco mais uma vez. A escolha, embora seja uma ilusão, ainda é a única maneira de entrar ou sair da Matrix, que é mais forte, mais segura e mais perigosa do que nunca",
+        url_poster: "https://www.themoviedb.org/t/p/original/9DT4WVqZqBEI9Kub18gZ3m1D89m.jpg",
+        url_imagem: "https://www.themoviedb.org/t/p/original/hv7o3VgfsairBoQFAawgaQ4cR1m.jpg",
+        assistido: "true"
     }
 
-    // {
+        // {
     //     name: "nome",
     //     ano: "ano",
     //     sinopse: "filme",

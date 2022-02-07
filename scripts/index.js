@@ -4,7 +4,8 @@ var jsstoreCon = new JsStore.Connection(new Worker("scripts/jsstore/jsstore.work
 
 window.onload = function () {
     loadCarouselPrincipal();
-    loadCarousel('.carousel-assistidos', 8);
+    loadCarousel('.carousel-assistidos', 8, true);
+    loadCarousel('.carousel-para-assistir', 8, false);
     registerEvents();
     initDb();
 };
@@ -121,6 +122,9 @@ async function loadCarouselPrincipal() {
         var htmlString = "";
         var movies = await jsstoreCon.select({
             from: 'Movie',
+            where: {
+                assistido: "false"
+            },
             limit: 3
         });
         movies.forEach(function (movie) {
@@ -153,11 +157,14 @@ async function loadCarouselPrincipal() {
 }
 
 
-async function loadCarousel(carousel, numItems) {
+async function loadCarousel(carousel, numItems, assistido) {
     try {
         var htmlString = "";
         var movies = await jsstoreCon.select({
             from: 'Movie',
+            where: {
+                assistido: assistido.toString()
+            },
             limit: numItems
         });
         movies.forEach(function (movie) {

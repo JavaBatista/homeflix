@@ -22,6 +22,9 @@ header .container{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    width: 95%;
+    margin: auto;
     
 }
 
@@ -51,6 +54,8 @@ header nav a:hover{
     height:400px;
     background-size:cover;
  
+    width: 95%;
+    margin: auto;
 
     display: flex;
     flex-direction: column;
@@ -98,6 +103,9 @@ header nav a:hover{
     margin-left: 20px;
 }
 
+
+
+
 .filme-principal .container{
     width: 70%;
 }
@@ -117,6 +125,32 @@ header nav a:hover{
     margin-bottom: 5px;
     width: 95%;
     margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.carrosel-filmes .container {
+    margin-top:5px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.titulo2 {
+    padding-left: 5px;
+}
+
+.botao-titulo2 {
+    padding:10px 15px;
+    margin-left: 15px;
+    margin-right: 0px;
 
 }
 

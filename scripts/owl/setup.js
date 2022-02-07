@@ -24,7 +24,24 @@ $('.carousel-assistidos').owlCarousel({
             items:3
         },
         1000:{
-            items:5
+            items:6
+        }
+    }
+})
+
+$('.carousel-para-assistir').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:false,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:6
         }
     }
 })
