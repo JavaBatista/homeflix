@@ -3,12 +3,23 @@
 var jsstoreCon = new JsStore.Connection(new Worker("scripts/jsstore/jsstore.worker.js"));
 
 window.onload = function () {
-    loadCarouselPrincipal();
-    loadCarousel('.carousel-assistidos', 8, true);
-    loadCarousel('.carousel-para-assistir', 8, false);
-    registerEvents();
-    initDb();
+    initDb().then(dbState => loadData(dbState))
+    .then(registerEvents)
+    .then(loadCarouselPrincipal)
+    .then(() => loadCarousel('.carousel-assistidos', 8, true))
+    .then(() => loadCarousel('.carousel-para-assistir', 8, false));
+
 };
+
+
+function loadData(isDbCreated) {
+    if (isDbCreated) {
+        populateDatabase()
+    }
+    else {
+        console.log('db alread opened');
+    }
+}
 
 async function initDb() {
     var isDbCreated = await jsstoreCon.initDb(getDbSchema());
@@ -18,6 +29,8 @@ async function initDb() {
     else {
         console.log('db opened');
     }
+
+    return isDbCreated;
 }
 
 function getDbSchema() {
@@ -210,7 +223,7 @@ async function populateDatabase() {
             values: movie
         });
         if (noOfDataInserted === movie.length) {
-            refreshTableData();
+            console.log('db populated');
         }
     } catch (ex) {
         alert(ex.message);
