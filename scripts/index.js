@@ -130,6 +130,8 @@ function registerEvents() {
     // });
 }
 
+
+
 async function loadCarouselPrincipal() {
     try {
         var htmlString = "";
